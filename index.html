@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ezz - Eldeen Tantawy | Creative Portfolio</title>
+  <meta name="description" content="Creative portfolio for Ezz - Eldeen Tantawy — video editing, 3D visualization, rendering, and AI-assisted video production." />
+  <style>
+    :root {
+      --bg: #0d0d0d;
+      --ink: #101010;
+      --coal: #171717;
+      --coal-2: #232323;
+      --paper: #f6f2eb;
+      --white: #ffffff;
+      --muted: #a6a09a;
+      --muted-dark: #6f6861;
+      --orange: #ff6a00;
+      --orange-2: #d27137;
+      --cream: #fff7ea;
+      --line: rgba(255,255,255,.13);
+      --dark-line: rgba(16,16,16,.12);
+      --radius: 28px;
+      --shadow: 0 34px 90px rgba(0,0,0,.35);
+      --mouse-x: 50vw;
+      --mouse-y: 50vh;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      min-height: 100vh;
+      color: var(--white);
+      background:
+        radial-gradient(circle at var(--mouse-x) var(--mouse-y), rgba(255,106,0,.14), transparent 22vw),
+        radial-gradient(circle at 16% 7%, rgba(255,106,0,.22), transparent 28%),
+        radial-gradient(circle at 92% 12%, rgba(255,255,255,.10), transparent 26%),
+        var(--bg);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.07) 1px, transparent 1px);
+      background-size: 92px 92px;
+      mask-image: radial-gradient(circle at var(--mouse-x) var(--mouse-y), black 0 28vw, transparent 58vw);
+      opacity: .42;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 260 260' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity: .055;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    img { max-width: 100%; display: block; }
+    .page { position: relative; z-index: 2; }
+
+    .cursor-dot,
+    .cursor-ring,
+    .cursor-glow {
+      position: fixed;
+      left: 0;
+      top: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0;
+      transform: translate(-50%, -50%);
+    }
+
+    .cursor-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--orange);
+      box-shadow: 0 0 18px rgba(255,106,0,.75);
+    }
+
+    .cursor-ring {
+      width: 42px;
+      height: 42px;
+      border: 1px solid rgba(255,255,255,.7);
+      border-radius: 50%;
+      mix-blend-mode: difference;
+      transition: width .2s ease, height .2s ease, border-color .2s ease, opacity .2s ease;
+    }
+
+    .cursor-glow {
+      width: 460px;
+      height: 460px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,106,0,.18), rgba(255,255,255,.06) 34%, transparent 66%);
+      filter: blur(10px);
+      z-index: 1;
+      mix-blend-mode: screen;
+    }
+
+    @media (pointer: fine) {
+      body, body * { cursor: none; }
+      .cursor-dot, .cursor-ring, .cursor-glow { opacity: 1; }
+      body.cursor-active .cursor-ring { width: 64px; height: 64px; border-color: rgba(255,106,0,.95); }
+    }
+
+    .interactive {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+    }
+
+    .interactive::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      opacity: 0;
+      background: radial-gradient(circle at var(--local-x, 50%) var(--local-y, 50%), rgba(255,106,0,.28), rgba(255,255,255,.08) 28%, transparent 55%);
+      transition: opacity .25s ease;
+      pointer-events: none;
+    }
+
+    .interactive:hover::before { opacity: 1; }
+
+    .nav {
+      position: sticky;
+      top: 16px;
+      width: min(1240px, calc(100% - 32px));
+      margin: 16px auto 0;
+      padding: 10px 12px 10px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(18,18,18,.72);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 20px 54px rgba(0,0,0,.28);
+      z-index: 50;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 950;
+      letter-spacing: -.04em;
+    }
+
+    .brand-img {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--orange);
+      box-shadow: 0 0 0 6px rgba(255,106,0,.10);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: rgba(255,255,255,.72);
+      font-size: 14px;
+    }
+
+    .nav-links a,
+    .nav-cta {
+      padding: 10px 14px;
+      border-radius: 999px;
+      transition: .24s ease;
+    }
+
+    .nav-links a:hover { color: var(--white); background: rgba(255,255,255,.08); transform: translateY(-1px); }
+    .nav-cta { background: var(--white); color: var(--ink); font-weight: 950; }
+    .nav-cta:hover { background: var(--orange); color: var(--white); transform: translateY(-2px); }
+
+    .hero {
+      width: min(1240px, calc(100% - 32px));
+      margin: 34px auto 0;
+      display: grid;
+      grid-template-columns: .92fr 1.08fr;
+      gap: 24px;
+      min-height: 720px;
+    }
+
+    .hero-photo,
+    .hero-copy,
+    .panel,
+    .tabs-shell,
+    .contact-card {
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--line);
+      overflow: hidden;
+    }
+
+    .hero-photo {
+      position: relative;
+      min-height: 680px;
+      background: var(--coal);
+    }
+
+    .hero-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      transform: scale(1.012);
+    }
+
+    .hero-photo::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to top, rgba(0,0,0,.88), transparent 46%),
+        radial-gradient(circle at var(--mouse-x) var(--mouse-y), rgba(255,106,0,.26), transparent 28vw);
+      pointer-events: none;
+    }
+
+    .photo-tags {
+      position: absolute;
+      left: 28px;
+      right: 28px;
+      bottom: 28px;
+      z-index: 2;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .photo-tags span {
+      padding: 10px 13px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.20);
+      background: rgba(255,255,255,.10);
+      backdrop-filter: blur(14px);
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .hero-copy {
+      position: relative;
+      background: var(--paper);
+      color: var(--ink);
+      padding: clamp(28px, 5vw, 62px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-color: rgba(16,16,16,.14);
+    }
+
+    .hero-copy::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(var(--dark-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--dark-line) 1px, transparent 1px);
+      background-size: 86px 86px;
+      mask-image: linear-gradient(135deg, black, transparent 65%);
+      opacity: .55;
+    }
+
+    .circle-line {
+      position: absolute;
+      width: 420px;
+      height: 420px;
+      border: 2px solid rgba(255,106,0,.55);
+      border-radius: 50%;
+      top: -150px;
+      right: -130px;
+      pointer-events: none;
+    }
+
+    .hero-content,
+    .hero-bottom { position: relative; z-index: 2; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      width: fit-content;
+      padding: 9px 13px;
+      border-radius: 999px;
+      border: 1px solid rgba(16,16,16,.12);
+      background: rgba(255,255,255,.58);
+      color: #4d4843;
+      font-size: 12px;
+      font-weight: 950;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--orange);
+      box-shadow: 0 0 0 8px rgba(255,106,0,.12);
+    }
+
+    h1 {
+      font-size: clamp(52px, 7.4vw, 104px);
+      line-height: .88;
+      letter-spacing: -.09em;
+      font-weight: 1000;
+      max-width: 760px;
+    }
+
+    h1 em { color: var(--orange); font-style: normal; }
+
+    .hero-desc {
+      margin-top: 24px;
+      max-width: 650px;
+      color: #625b53;
+      font-size: clamp(16px, 1.7vw, 20px);
+      line-height: 1.74;
+    }
+
+    .role-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .role-card {
+      min-height: 74px;
+      padding: 14px 14px 17px;
+      border-radius: 18px;
+      border: 1px solid rgba(16,16,16,.11);
+      background: rgba(255,255,255,.63);
+      transform: rotate(var(--r));
+      transition: .24s ease;
+    }
+
+    .role-card:hover { transform: rotate(0deg) translateY(-5px); box-shadow: 0 16px 34px rgba(0,0,0,.10); }
+    .role-card strong { display: block; font-family: "Segoe Script", "Brush Script MT", cursive; font-size: 18px; font-weight: 700; }
+    .role-card i { display: block; width: 76%; height: 2px; background: var(--orange); margin-top: 7px; transform: rotate(-2deg); }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 36px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 54px;
+      padding: 0 20px;
+      border-radius: 999px;
+      border: 1px solid rgba(16,16,16,.12);
+      font-weight: 950;
+      transition: .26s cubic-bezier(.2,.8,.2,1);
+    }
+
+    .btn-dark { background: var(--ink); color: var(--white); }
+    .btn-light { background: rgba(255,255,255,.66); color: var(--ink); }
+    .btn:hover { transform: translateY(-4px); box-shadow: 0 18px 44px rgba(0,0,0,.16); }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 44px;
+    }
+
+    .metric {
+      min-height: 130px;
+      padding: 18px;
+      border-radius: 22px;
+      background: #141414;
+      color: var(--white);
+      border: 1px solid rgba(255,255,255,.08);
+      transition: .24s ease;
+    }
+
+    .metric:hover { transform: translateY(-6px); background: #202020; }
+    .metric strong { display: block; color: var(--orange); font-size: 34px; letter-spacing: -.06em; margin-bottom: 8px; }
+    .metric span { color: rgba(255,255,255,.68); font-size: 13px; line-height: 1.55; }
+
+    section { width: min(1240px, calc(100% - 32px)); margin: 28px auto 0; }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin: 96px 0 24px;
+    }
+
+    .kicker {
+      color: var(--orange);
+      font-size: 12px;
+      font-weight: 1000;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-head h2 {
+      font-size: clamp(38px, 5.9vw, 78px);
+      line-height: .9;
+      letter-spacing: -.08em;
+      max-width: 780px;
+    }
+
+    .section-head p {
+      max-width: 470px;
+      color: rgba(255,255,255,.62);
+      line-height: 1.75;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: .95fr 1.05fr;
+      gap: 22px;
+    }
+
+    .panel {
+      padding: 28px;
+      background: rgba(255,255,255,.08);
+      backdrop-filter: blur(18px);
+    }
+
+    .panel.light {
+      background: var(--paper);
+      color: var(--ink);
+      border-color: rgba(16,16,16,.13);
+    }
+
+    .panel h3 {
+      font-size: 27px;
+      letter-spacing: -.05em;
+      margin-bottom: 12px;
+    }
+
+    .panel p { color: rgba(255,255,255,.66); line-height: 1.78; }
+    .panel.light p { color: var(--muted-dark); }
+
+    .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+    .chip {
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.12);
+      color: rgba(255,255,255,.82);
+      font-size: 13px;
+      font-weight: 850;
+      transition: .22s ease;
+    }
+    .panel.light .chip { color: var(--ink); background: rgba(255,255,255,.62); border-color: rgba(16,16,16,.12); }
+    .chip:hover { transform: translateY(-3px); border-color: var(--orange); }
+
+    .tabs-shell {
+      background: rgba(18,18,18,.88);
+      backdrop-filter: blur(18px);
+    }
+
+    .tab-row {
+      padding: 12px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      border-bottom: 1px solid rgba(255,255,255,.11);
+    }
+
+    .tab-btn {
+      position: relative;
+      border: 0;
+      color: rgba(255,255,255,.64);
+      background: transparent;
+      padding: 16px;
+      border-radius: 18px;
+      font-weight: 950;
+      text-align: left;
+      transition: .25s ease;
+      cursor: pointer;
+    }
+
+    .tab-btn::after {
+      content: "";
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 10px;
+      height: 2px;
+      background: var(--orange);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: .25s ease;
+    }
+
+    .tab-btn:hover,
+    .tab-btn.active { color: var(--white); background: rgba(255,255,255,.075); }
+    .tab-btn.active::after { transform: scaleX(1); }
+
+    .tab-content { display: none; padding: 24px; animation: tabIn .36s ease both; }
+    .tab-content.active { display: block; }
+    @keyframes tabIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+
+    .gallery-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: end;
+      margin-bottom: 18px;
+    }
+
+    .gallery-head h3 { font-size: clamp(25px, 3vw, 38px); letter-spacing: -.06em; }
+    .gallery-head p { color: rgba(255,255,255,.57); max-width: 570px; line-height: 1.65; }
+
+    .carousel-wrap { position: relative; }
+    .project-track {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(330px, 560px);
+      gap: 18px;
+      overflow-x: auto;
+      overscroll-behavior-inline: contain;
+      scroll-snap-type: x mandatory;
+      padding: 4px 2px 12px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--orange) rgba(255,255,255,.08);
+    }
+
+    .project-card {
+      min-height: 430px;
+      scroll-snap-align: start;
+      border: 1px solid rgba(255,255,255,.13);
+      background: #1d1d1d;
+      border-radius: 26px;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      transition: .34s cubic-bezier(.2,.8,.2,1);
+      cursor: pointer;
+    }
+
+    .project-card:hover {
+      transform: translateY(-10px) rotateX(1deg);
+      box-shadow: 0 38px 90px rgba(0,0,0,.42);
+      border-color: rgba(255,106,0,.65);
+    }
+
+    .project-thumb {
+      height: 258px;
+      background: #111 center / cover no-repeat;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-thumb::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to top, rgba(0,0,0,.74), transparent 54%),
+        radial-gradient(circle at var(--local-x,50%) var(--local-y,50%), rgba(255,106,0,.24), transparent 33%);
+      z-index: 1;
+    }
+
+    .project-thumb::after {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: linear-gradient(110deg, transparent 20%, rgba(255,255,255,.25) 48%, transparent 70%);
+      transform: translateX(-62%) rotate(8deg);
+      transition: .75s ease;
+      z-index: 2;
+    }
+
+    .project-card:hover .project-thumb::after { transform: translateX(62%) rotate(8deg); }
+
+    .press-label {
+      position: absolute;
+      left: 18px;
+      bottom: 18px;
+      z-index: 3;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 10px 13px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.91);
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 1000;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      transform: translateY(10px);
+      opacity: 0;
+      transition: .26s ease;
+    }
+
+    .project-card:hover .press-label,
+    .project-card:focus-visible .press-label { transform: translateY(0); opacity: 1; }
+
+    .project-body { padding: 20px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .project-body h3 { font-size: clamp(24px, 2.6vw, 34px); line-height: 1; letter-spacing: -.065em; margin-bottom: 12px; }
+    .project-body p { color: rgba(255,255,255,.62); line-height: 1.65; font-size: 14px; }
+    .project-meta { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 18px; }
+    .pill { padding: 8px 10px; border-radius: 999px; border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.07); color: rgba(255,255,255,.82); font-size: 12px; font-weight: 850; }
+    .pill.orange { color: #ffd1b3; border-color: rgba(255,106,0,.32); background: rgba(255,106,0,.12); }
+
+    .carousel-actions { display: flex; gap: 10px; align-items: center; justify-content: flex-end; margin-top: 12px; }
+    .arrow-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.07);
+      color: var(--white);
+      font-size: 20px;
+      cursor: pointer;
+      transition: .22s ease;
+    }
+    .arrow-btn:hover { background: var(--orange); transform: translateY(-2px); }
+
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .process-card {
+      min-height: 220px;
+      padding: 22px;
+      border-radius: 26px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.07);
+      position: relative;
+      overflow: hidden;
+      transition: .28s ease;
+    }
+
+    .process-card::after {
+      content: attr(data-step);
+      position: absolute;
+      right: 14px;
+      top: 0;
+      color: rgba(255,106,0,.18);
+      font-size: 88px;
+      font-weight: 1000;
+      letter-spacing: -.1em;
+    }
+
+    .process-card:hover { transform: translateY(-8px); background: rgba(255,255,255,.1); }
+    .process-card h3 { font-size: 21px; letter-spacing: -.04em; margin-bottom: 12px; position: relative; z-index: 2; }
+    .process-card p { color: rgba(255,255,255,.62); line-height: 1.65; font-size: 14px; position: relative; z-index: 2; }
+
+    .contact-card {
+      margin: 96px auto 34px;
+      padding: clamp(28px, 5vw, 56px);
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 28px;
+      align-items: center;
+      background:
+        radial-gradient(circle at var(--mouse-x) var(--mouse-y), rgba(255,106,0,.18), transparent 28vw),
+        var(--paper);
+      color: var(--ink);
+      border-color: rgba(16,16,16,.14);
+    }
+
+    .contact-card h2 { font-size: clamp(39px, 6.2vw, 82px); line-height: .89; letter-spacing: -.085em; margin-bottom: 16px; }
+    .contact-card p { color: var(--muted-dark); line-height: 1.75; max-width: 580px; }
+    .contact-links { display: grid; gap: 12px; }
+    .contact-link {
+      padding: 16px 18px;
+      border-radius: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      border: 1px solid rgba(16,16,16,.12);
+      background: rgba(255,255,255,.68);
+      font-weight: 950;
+      transition: .24s ease;
+      word-break: break-word;
+    }
+    .contact-link span:last-child { color: var(--orange-2); text-align: right; }
+    .contact-link:hover { transform: translateX(6px); background: var(--white); box-shadow: 0 18px 44px rgba(0,0,0,.12); }
+
+    footer {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto 30px;
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      color: rgba(255,255,255,.42);
+      font-size: 13px;
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(0,0,0,.72);
+      backdrop-filter: blur(18px);
+    }
+
+    .modal.open { display: flex; }
+
+    .modal-card {
+      width: min(1240px, 100%);
+      max-height: min(880px, 94vh);
+      overflow: hidden;
+      border-radius: 28px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: #141414;
+      box-shadow: 0 44px 120px rgba(0,0,0,.55);
+      display: grid;
+      grid-template-columns: 1.35fr .82fr;
+      position: relative;
+      animation: modalIn .28s ease both;
+    }
+
+    @keyframes modalIn { from { opacity: 0; transform: translateY(18px) scale(.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+    .close-modal {
+      position: absolute;
+      right: 16px;
+      top: 16px;
+      width: 44px;
+      height: 44px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.10);
+      color: var(--white);
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 5;
+      font-size: 24px;
+      transition: .2s ease;
+    }
+    .close-modal:hover { background: var(--orange); transform: rotate(90deg); }
+
+    .modal-media {
+      padding: 18px;
+      min-height: 540px;
+      overflow: auto;
+      border-right: 1px solid rgba(255,255,255,.10);
+    }
+
+    .stage {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 20px;
+      overflow: hidden;
+      background: #080808;
+      border: 1px solid rgba(255,255,255,.12);
+      position: relative;
+    }
+
+    .stage iframe,
+    .stage img { width: 100%; height: 100%; border: 0; object-fit: cover; display: block; }
+
+    .stage-placeholder {
+      height: 100%;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      color: rgba(255,255,255,.62);
+      padding: 24px;
+    }
+
+    .media-tabs,
+    .media-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-top: 14px;
+    }
+
+    .media-tab,
+    .media-item {
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.07);
+      color: rgba(255,255,255,.82);
+      border-radius: 999px;
+      padding: 10px 12px;
+      font-weight: 850;
+      font-size: 13px;
+      cursor: pointer;
+      transition: .2s ease;
+    }
+    .media-tab:hover,
+    .media-tab.active,
+    .media-item:hover,
+    .media-item.active { background: var(--orange); color: var(--white); border-color: rgba(255,106,0,.65); transform: translateY(-2px); }
+
+    .modal-info {
+      padding: 32px;
+      overflow: auto;
+    }
+
+    .modal-info h2 {
+      font-size: clamp(32px, 4vw, 56px);
+      line-height: .92;
+      letter-spacing: -.075em;
+      margin: 18px 0 14px;
+    }
+
+    .modal-info p { color: rgba(255,255,255,.66); line-height: 1.72; }
+    .modal-kicker { color: var(--orange); text-transform: uppercase; letter-spacing: .16em; font-size: 12px; font-weight: 1000; }
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; }
+    .info-box { padding: 14px; border-radius: 18px; border: 1px solid rgba(255,255,255,.10); background: rgba(255,255,255,.06); }
+    .info-box small { display: block; color: rgba(255,255,255,.46); font-weight: 900; text-transform: uppercase; letter-spacing: .09em; font-size: 10px; margin-bottom: 6px; }
+    .info-box strong { font-size: 13px; line-height: 1.45; }
+
+    .highlights { margin-top: 18px; display: grid; gap: 10px; }
+    .highlight { padding: 13px 14px; border-left: 3px solid var(--orange); border-radius: 14px; background: rgba(255,255,255,.06); color: rgba(255,255,255,.72); font-size: 14px; line-height: 1.55; }
+
+    .expand-btn {
+      width: 100%;
+      margin-top: 18px;
+      min-height: 48px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.08);
+      color: var(--white);
+      font-weight: 950;
+      cursor: pointer;
+      transition: .2s ease;
+    }
+    .expand-btn:hover { background: var(--orange); transform: translateY(-2px); }
+    .breakdown { display: none; margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,.10); }
+    .breakdown.open { display: block; }
+    .breakdown h3 { margin-bottom: 9px; font-size: 20px; letter-spacing: -.03em; }
+
+    .open-external {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 14px;
+      min-height: 44px;
+      padding: 0 16px;
+      border-radius: 999px;
+      background: var(--paper);
+      color: var(--ink);
+      font-weight: 950;
+      transition: .22s ease;
+    }
+    .open-external:hover { background: var(--orange); color: var(--white); transform: translateY(-2px); }
+
+    .reveal { opacity: 0; transform: translateY(28px); transition: .74s cubic-bezier(.2,.8,.2,1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 1000px) {
+      .hero, .about-grid, .contact-card, .modal-card { grid-template-columns: 1fr; }
+      .hero-photo { min-height: 640px; }
+      .modal-card { overflow: auto; }
+      .modal-media { border-right: 0; border-bottom: 1px solid rgba(255,255,255,.10); min-height: auto; }
+      .process-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 720px) {
+      .nav { width: calc(100% - 20px); top: 10px; border-radius: 24px; flex-wrap: wrap; }
+      .brand span:last-child { font-size: 14px; }
+      .nav-links { width: 100%; order: 3; overflow-x: auto; justify-content: space-between; padding-bottom: 2px; }
+      .nav-links a { white-space: nowrap; }
+      .hero, section, footer { width: calc(100% - 20px); }
+      .hero { margin-top: 18px; }
+      .hero-copy { padding: 26px 20px; }
+      .hero-photo { min-height: 560px; }
+      h1 { font-size: clamp(46px, 15vw, 72px); }
+      .role-strip, .metrics, .tab-row, .process-grid, .info-grid { grid-template-columns: 1fr; }
+      .section-head { flex-direction: column; align-items: flex-start; }
+      .project-track { grid-auto-columns: minmax(286px, 88vw); }
+      .project-thumb { height: 220px; }
+      .press-label { opacity: 1; transform: none; }
+      .gallery-head { flex-direction: column; align-items: flex-start; }
+      .modal { padding: 10px; align-items: stretch; }
+      .modal-card { max-height: 100%; border-radius: 22px; }
+      .modal-media, .modal-info { padding: 14px; }
+      .stage { aspect-ratio: 4 / 3; }
+      .contact-link { flex-direction: column; align-items: flex-start; }
+      .contact-link span:last-child { text-align: left; }
+      footer { flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor-glow" aria-hidden="true"></div>
+  <div class="cursor-ring" aria-hidden="true"></div>
+  <div class="cursor-dot" aria-hidden="true"></div>
+
+  <main class="page">
+    <nav class="nav reveal interactive">
+      <a class="brand" href="#top" aria-label="Go to top">
+        <img class="brand-img" src="assets/ezz-profile.jpg" alt="Ezz - Eldeen Tantawy" />
+        <span>Ezz - Eldeen Tantawy</span>
+      </a>
+      <div class="nav-links" aria-label="Main navigation">
+        <a href="#about">About</a>
+        <a href="#work">Work</a>
+        <a href="#process">Process</a>
+      </div>
+      <a class="nav-cta" href="#contact">Contact</a>
+    </nav>
+
+    <header id="top" class="hero">
+      <aside class="hero-photo reveal interactive">
+        <img src="assets/ezz-profile.jpg" alt="Portrait of Ezz - Eldeen Tantawy" />
+        <div class="photo-tags">
+          <span>Video Editor</span>
+          <span>3D Artist</span>
+          <span>AI Video Creator</span>
+        </div>
+      </aside>
+
+      <section class="hero-copy reveal interactive" aria-label="Portfolio intro">
+        <div class="circle-line"></div>
+        <div class="hero-content">
+          <div class="eyebrow"><span class="dot"></span> Motion • 3D • AI Visuals</div>
+          <h1>Turning brand ideas into visuals that feel <em>built to stand out.</em></h1>
+          <p class="hero-desc">
+            I help brands elevate how they present themselves through cinematic editing, immersive 3D visualization, and AI-assisted motion — creating visuals that feel sharp, memorable, and ready for modern audiences.
+          </p>
+
+          <div class="role-strip">
+            <div class="role-card" style="--r:-2deg"><strong>Video editing</strong><i></i></div>
+            <div class="role-card" style="--r:1.5deg"><strong>3D animation</strong><i></i></div>
+            <div class="role-card" style="--r:-1.3deg"><strong>3D modeling</strong><i></i></div>
+            <div class="role-card" style="--r:1.9deg"><strong>AI video editing</strong><i></i></div>
+            <div class="role-card" style="--r:-2.2deg"><strong>Graphic design</strong><i></i></div>
+            <div class="role-card" style="--r:1.1deg"><strong>Videography</strong><i></i></div>
+          </div>
+
+          <div class="actions">
+            <a class="btn btn-dark interactive" href="#work">Explore Projects</a>
+            <a class="btn btn-light interactive" href="#contact">Start a Project</a>
+          </div>
+        </div>
+
+        <div class="hero-bottom">
+          <div class="metrics">
+            <div class="metric interactive"><strong>3D</strong><span>Spatial visualization, branded interiors, modeling, rendering, and presentation films.</span></div>
+            <div class="metric interactive"><strong>EDIT</strong><span>Fast-turnaround reels, campaign content, corporate stories, and social-first edits.</span></div>
+            <div class="metric interactive"><strong>AI</strong><span>ComfyUI, image-to-video workflows, prompt planning, and cinematic AI animation tests.</span></div>
+          </div>
+        </div>
+      </section>
+    </header>
+
+    <section id="about">
+      <div class="section-head reveal">
+        <div>
+          <div class="kicker">About</div>
+          <h2>A creator who can move from idea to visual proof fast.</h2>
+        </div>
+        <p>
+          From edited reels to immersive 3D previews and AI-driven motion, my work is focused on helping brands communicate ideas with clarity, speed, and a distinctive visual presence.
+        </p>
+      </div>
+
+      <div class="about-grid">
+        <article class="panel light reveal interactive">
+          <h3>Creative positioning</h3>
+          <p>
+            My work connects practical editing, 3D production, design thinking, and AI experimentation. The goal is not just to make something look good — it is to turn rough briefs, references, and raw material into visuals that make a client understand the value immediately.
+          </p>
+          <div class="chips">
+            <span class="chip">Premiere Pro</span>
+            <span class="chip">After Effects</span>
+            <span class="chip">Blender</span>
+            <span class="chip">Photoshop</span>
+            <span class="chip">ComfyUI</span>
+            <span class="chip">AI Video</span>
+            <span class="chip">Motion Design</span>
+          </div>
+        </article>
+
+        <article class="panel reveal interactive">
+          <h3>Selected work preview</h3>
+          <p>
+            Below are selected samples across 3D visualization, video editing, and AI-powered animation. Some client work is shown in a limited way due to confidentiality, but each sample reflects the creative approach, speed, and production value behind the project.
+          </p>
+          <div class="chips">
+            <span class="chip">3D Visualization</span>
+            <span class="chip">Reel Editing</span>
+            <span class="chip">AI Animation</span>
+            <span class="chip">Client Work</span>
+            <span class="chip">Fast Delivery</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="work">
+      <div class="section-head reveal">
+        <div>
+          <div class="kicker">Selected work</div>
+          <h2>Multidisciplinary work across motion, space, and AI.</h2>
+        </div>
+        <p>
+          Hover or tap a project to explore the story, visuals, role, tools, and selected media behind each piece of work.
+        </p>
+      </div>
+
+      <div class="tabs-shell reveal interactive">
+        <div class="tab-row" role="tablist" aria-label="Portfolio categories">
+          <button class="tab-btn active" type="button" data-tab="threeD" role="tab" aria-selected="true">3D Animation & Rendering</button>
+          <button class="tab-btn" type="button" data-tab="editing" role="tab" aria-selected="false">Video Editing</button>
+          <button class="tab-btn" type="button" data-tab="ai" role="tab" aria-selected="false">AI Video Editing</button>
+        </div>
+
+        <div class="tab-content active" id="threeD" role="tabpanel">
+          <div class="gallery-head">
+            <div><h3>Spatial stories from plan to rendered reality.</h3></div>
+            <p>3D projects focused on visualizing spaces, brands, and experiences before they physically exist.</p>
+          </div>
+          <div class="carousel-wrap">
+            <div class="project-track" data-category="threeD"></div>
+            <div class="carousel-actions"><button class="arrow-btn" data-scroll="threeD" data-dir="-1">←</button><button class="arrow-btn" data-scroll="threeD" data-dir="1">→</button></div>
+          </div>
+        </div>
+
+        <div class="tab-content" id="editing" role="tabpanel">
+          <div class="gallery-head">
+            <div><h3>Fast edits built for real deadlines.</h3></div>
+            <p>Reels and campaign edits designed to be clear, quick to publish, and strong enough to carry urgency.</p>
+          </div>
+          <div class="carousel-wrap">
+            <div class="project-track" data-category="editing"></div>
+            <div class="carousel-actions"><button class="arrow-btn" data-scroll="editing" data-dir="-1">←</button><button class="arrow-btn" data-scroll="editing" data-dir="1">→</button></div>
+          </div>
+        </div>
+
+        <div class="tab-content" id="ai" role="tabpanel">
+          <div class="gallery-head">
+            <div><h3>Experimental AI motion with production intent.</h3></div>
+            <p>Image-to-video tests, ComfyUI workflows, and AI animation experiments refined through planning and prompts.</p>
+          </div>
+          <div class="carousel-wrap">
+            <div class="project-track" data-category="ai"></div>
+            <div class="carousel-actions"><button class="arrow-btn" data-scroll="ai" data-dir="-1">←</button><button class="arrow-btn" data-scroll="ai" data-dir="1">→</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="process">
+      <div class="section-head reveal">
+        <div>
+          <div class="kicker">Process</div>
+          <h2>Not just output — a visual system.</h2>
+        </div>
+        <p>Every project can be framed as a clean case study: problem, approach, execution, and final result.</p>
+      </div>
+      <div class="process-grid">
+        <article class="process-card reveal interactive" data-step="01"><h3>Decode the brief</h3><p>Clarify what the project must achieve and what the viewer should understand quickly.</p></article>
+        <article class="process-card reveal interactive" data-step="02"><h3>Build the visual route</h3><p>Define pacing, composition, references, assets, prompts, camera language, and delivery format.</p></article>
+        <article class="process-card reveal interactive" data-step="03"><h3>Produce with speed</h3><p>Edit, render, generate, composite, and test multiple routes without losing the core objective.</p></article>
+        <article class="process-card reveal interactive" data-step="04"><h3>Package the result</h3><p>Deliver visuals in a way that feels sharp, client-ready, and easy to use across platforms.</p></article>
+      </div>
+    </section>
+
+    <section id="contact" class="contact-card reveal interactive">
+      <div>
+        <div class="kicker">Contact</div>
+        <h2>Have a brand that needs a stronger visual presence?</h2>
+        <p>Reach out through email, LinkedIn, or Discord for video editing, 3D visualization, branded content, or AI-assisted motion projects.</p>
+      </div>
+      <div class="contact-links">
+        <a class="contact-link interactive" href="mailto:Drezeldeen.tantawi@gmail.com"><span>Email</span><span>Drezeldeen.tantawi@gmail.com</span></a>
+        <a class="contact-link interactive" href="https://www.linkedin.com/in/ezeldeen-tantawy-785189240/" target="_blank" rel="noopener"><span>LinkedIn</span><span>ezeldeen-tantawy</span></a>
+        <a class="contact-link interactive" href="#" onclick="navigator.clipboard?.writeText('ezeldeentantawy'); this.querySelector('span:last-child').textContent='Copied: ezeldeentantawy'; return false;"><span>Discord</span><span>ezeldeentantawy</span></a>
+      </div>
+    </section>
+
+    <footer>
+      <span>© <span id="year"></span> Ezz - Eldeen Tantawy.</span>
+      <span>Video Editing • 3D Visualization • AI Video</span>
+    </footer>
+  </main>
+
+  <div class="modal" id="projectModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-card interactive">
+      <button class="close-modal" type="button" aria-label="Close project viewer">×</button>
+      <div class="modal-media">
+        <div class="stage" id="stage"></div>
+        <div class="media-tabs" id="mediaTabs"></div>
+        <div class="media-list" id="mediaList"></div>
+        <a class="open-external" id="openExternal" href="#" target="_blank" rel="noopener">Open current media externally ↗</a>
+      </div>
+      <div class="modal-info">
+        <div class="modal-kicker" id="modalCategory"></div>
+        <h2 id="modalTitle"></h2>
+        <p id="modalDescription"></p>
+        <div class="info-grid" id="modalInfoGrid"></div>
+        <div class="highlights" id="modalHighlights"></div>
+        <button class="expand-btn" type="button" id="expandBtn">Show full breakdown</button>
+        <div class="breakdown" id="breakdown"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const PROJECTS = [
+      {
+        id: "automotive-service-center",
+        category: "threeD",
+        categoryLabel: "3D Animation & Rendering",
+        title: "Plan → Model → Reality",
+        subtitle: "Automotive Customer Service Center Visualization",
+        cardDescription: "A spatial branding visualization turning a flat floor plan into a complete rendered customer-service environment.",
+        thumbnail: "assets/project-automotive-service-center.jpg",
+        type: "Mixed project",
+        client: "Automotive Customer Service Center",
+        year: "2026",
+        role: "3D modeling and rendering",
+        tools: "Blender, Photoshop, ComfyUI",
+        mainMedia: { label: "Project film", type: "drive", id: "1ZnTxMSdc6jx3GkUhPu-dsXTbrpYrDF-h" },
+        gallery: [
+          "108WCYyFM_mW72J1c983kZp-tOUL55JGk", "10YoCiLyNowRK-WmFKyMXC85vD48_XCv2", "1427sCOtQmGH4g_2RVPwjf8zUuQ8lFWyJ", "14Yj0ozJGmVu8L3xim1XRs8VZinrHa3Rm", "1B7H3O60PpaiXEf-zlp0SLzyuN2S_Ti11", "1F0XIQjgommn4BthummzK4_zU61F0XAFJ", "1GIjJvVtb_jJXWJW9LOc-ITWtPTHyOOp9", "1HDBBKxR1Xx53Lmb1-3tjXL3j4zVZGDxE", "1QMl_dT9HIqrA2Sf47U9eLY46YropvBFS", "1RzSCuUtBXO2ON2IWSD83xB_0dtLzHIaM", "1VB0ZBtpIKCgap1cMYSs-moGb1yKa6h4Q", "1VKkgoHCOGMu1zHdH0j73_5TbAwcixZQO", "1dN3qYTVBrJ_Ql5JcnzMQgDPSQBQ4AeP3", "1e22eK7xuyWTQtfgdC8DidFJTOtgO9Faz", "1fDr8kTm_0kTOK-NgG7a7hI-yAUHMyfI5", "1h6vw-hqLDPMwuvweCutE_Ftlgb9xXkHX", "1n4uPsuyumtPV6EfA0Gl2Y27mAv6X9jp6", "1ses_aBFl-Z9WTYRwlfxk3GPJm3JA-YU9", "1xXaqEtrhKlwjhi0qKKav1ABu_HHkRHNi", "1zBCzUcLDLvQRCRo5wSGdZsWvOcmHD0B9"
+        ],
+        aiRenders: ["1ABuqrFDy1Dx0BZpGa3vLZpJn42R4pPsU", "1Izket4K-IikE9031e7OkEm9U5MIuoXB-", "1OMOkvGMj7SobrCYG4WM0ZJIRCDJRrVT1", "1nocwhes7ucVX8J54pPcgoQIklA3qf1tQ"],
+        sketchfab: "https://sketchfab.com/models/c6b54480588c4a7881e04c6ef031e2ff/embed",
+        description: "A full 3D branding visualization that transforms a flat layout into an immersive service-center environment. The project moves from floor plan to 3D build, final renders, AI-assisted realism tests, and an interactive asset preview.",
+        highlights: [
+          "Translated a 2D layout into a complete 3D spatial story.",
+          "Built a visual route that shows process: plan, model, and final rendered experience.",
+          "Included AI realism refinements to push selected renders closer to a photographic look."
+        ],
+        breakdown: "The value of this project is in showing the transformation, not just the final image. The viewer can understand how a flat plan becomes a branded environment through modeling, material choices, render framing, AI-assisted realism tests, and a supporting Sketchfab asset."
+      },
+      {
+        id: "urgent-course-reel",
+        category: "editing",
+        categoryLabel: "Video Editing",
+        title: "2-Hour Turnaround",
+        subtitle: "Urgent Course Promo Reel",
+        cardDescription: "An urgent education promo reel delivered in 2 hours under deadline pressure for immediate publishing.",
+        thumbnail: "assets/project-urgent-course-reel.jpg",
+        type: "Reel edit",
+        client: "Mr. Ahmed Samak",
+        year: "2026",
+        role: "Fast-turnaround reel editing",
+        tools: "Premiere Pro, social export workflow",
+        mainMedia: { label: "Final reel", type: "drive", id: "17M09AAN8D0vzx-_8YHT_WgctG3zGwwjj" },
+        description: "A rush educational promo reel created for an urgent course campaign. The client needed the video within 12 hours, and the final edit was delivered only 2 hours after the request.",
+        highlights: [
+          "Delivered in 2 hours under urgent deadline pressure.",
+          "Edited for immediate social media publishing.",
+          "Focused on direct pacing, clarity, and fast promotional impact."
+        ],
+        breakdown: "This project is about reliability under pressure. The edit needed to move quickly from raw material to a usable social-media post while keeping the message clear and the pacing direct enough for a course promotion."
+      },
+      {
+        id: "comfyui-veneer-animation",
+        category: "ai",
+        categoryLabel: "AI Video Editing",
+        title: "ComfyUI Image → Video Test",
+        subtitle: "Veneer Transformation Animation",
+        cardDescription: "An AI animation experiment using a batch image-to-video workflow to turn dental before/after frames into cinematic motion.",
+        thumbnail: "assets/project-comfyui-ai-animation.jpg",
+        type: "AI animation",
+        client: "Dr. Saad Tantawy",
+        year: "2026",
+        role: "AI animation workflow, frame planning, and prompt direction",
+        tools: "ComfyUI, Wan 2.2, image-to-video workflow",
+        mainMedia: { label: "AI animation", type: "drive", id: "1vZBpsHpuFRtzJGKwiyB60JmP-jZozSzt" },
+        description: "An experimental ComfyUI image-to-video workflow using multiple planned input frames to generate a single animated transformation. The project tested how frame quality, prompt control, and AI motion can make a dental before/after result feel more cinematic and engaging.",
+        highlights: [
+          "Built around a batch image-to-video workflow in ComfyUI.",
+          "Used Wan 2.2 to test controlled transitions between planned input frames.",
+          "Explored how prompt planning and frame quality affect the final AI animation."
+        ],
+        breakdown: "The project was part of a larger exploration into AI-assisted video production. Some generations needed more control, but the strongest results showed how frame planning and precise prompting can turn static before/after visuals into a more engaging animated presentation."
+      }
+    ];
+
+    const root = document.documentElement;
+    const dot = document.querySelector('.cursor-dot');
+    const ring = document.querySelector('.cursor-ring');
+    const glow = document.querySelector('.cursor-glow');
+
+    function updatePointer(x, y) {
+      root.style.setProperty('--mouse-x', `${x}px`);
+      root.style.setProperty('--mouse-y', `${y}px`);
+      if (dot) dot.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
+      if (ring) ring.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
+      if (glow) glow.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
+    }
+
+    window.addEventListener('pointermove', (event) => updatePointer(event.clientX, event.clientY), { passive: true });
+    window.addEventListener('touchmove', (event) => {
+      const touch = event.touches[0];
+      if (touch) updatePointer(touch.clientX, touch.clientY);
+    }, { passive: true });
+
+    document.querySelectorAll('a, button, .project-card, .interactive').forEach((el) => {
+      el.addEventListener('mouseenter', () => document.body.classList.add('cursor-active'));
+      el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-active'));
+    });
+
+    document.querySelectorAll('.interactive, .project-card').forEach((el) => {
+      el.addEventListener('pointermove', (event) => {
+        const rect = el.getBoundingClientRect();
+        const x = ((event.clientX - rect.left) / rect.width) * 100;
+        const y = ((event.clientY - rect.top) / rect.height) * 100;
+        el.style.setProperty('--local-x', `${x}%`);
+        el.style.setProperty('--local-y', `${y}%`);
+      });
+    });
+
+    const revealItems = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: .13 });
+    revealItems.forEach((item, index) => {
+      item.style.transitionDelay = `${Math.min(index * 45, 360)}ms`;
+      observer.observe(item);
+    });
+
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+    tabButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        tabButtons.forEach((b) => { b.classList.remove('active'); b.setAttribute('aria-selected', 'false'); });
+        tabContents.forEach((panel) => panel.classList.remove('active'));
+        btn.classList.add('active');
+        btn.setAttribute('aria-selected', 'true');
+        document.getElementById(btn.dataset.tab).classList.add('active');
+      });
+    });
+
+    function drivePreview(id) { return `https://drive.google.com/file/d/${id}/preview`; }
+    function driveView(id) { return `https://drive.google.com/file/d/${id}/view`; }
+
+    function renderProjects() {
+      const tracks = document.querySelectorAll('.project-track');
+      tracks.forEach((track) => {
+        const category = track.dataset.category;
+        const items = PROJECTS.filter((project) => project.category === category);
+        track.innerHTML = items.map((project) => `
+          <article class="project-card interactive" tabindex="0" data-project="${project.id}" aria-label="Open project: ${project.title}">
+            <div class="project-thumb" style="background-image:url('${project.thumbnail}')">
+              <span class="press-label">Press to explore →</span>
+            </div>
+            <div class="project-body">
+              <div>
+                <div class="kicker">${project.categoryLabel}</div>
+                <h3>${project.title}</h3>
+                <p>${project.subtitle}</p>
+                <p style="margin-top:10px">${project.cardDescription}</p>
+              </div>
+              <div class="project-meta">
+                <span class="pill orange">${project.type}</span>
+                <span class="pill">${project.year}</span>
+                <span class="pill">${project.client}</span>
+              </div>
+            </div>
+          </article>
+        `).join('');
+      });
+
+      document.querySelectorAll('.project-card').forEach((card) => {
+        const open = () => openProject(card.dataset.project);
+        card.addEventListener('click', open);
+        card.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            open();
+          }
+        });
+        card.addEventListener('mouseenter', () => document.body.classList.add('cursor-active'));
+        card.addEventListener('mouseleave', () => document.body.classList.remove('cursor-active'));
+        card.addEventListener('pointermove', (event) => {
+          const rect = card.getBoundingClientRect();
+          const x = ((event.clientX - rect.left) / rect.width) * 100;
+          const y = ((event.clientY - rect.top) / rect.height) * 100;
+          card.style.setProperty('--local-x', `${x}%`);
+          card.style.setProperty('--local-y', `${y}%`);
+        });
+      });
+    }
+
+    renderProjects();
+
+    document.querySelectorAll('.arrow-btn').forEach((button) => {
+      button.addEventListener('click', () => {
+        const track = document.querySelector(`.project-track[data-category="${button.dataset.scroll}"]`);
+        const direction = Number(button.dataset.dir);
+        track.scrollBy({ left: direction * Math.min(620, window.innerWidth * .82), behavior: 'smooth' });
+      });
+    });
+
+    const modal = document.getElementById('projectModal');
+    const stage = document.getElementById('stage');
+    const mediaTabs = document.getElementById('mediaTabs');
+    const mediaList = document.getElementById('mediaList');
+    const openExternal = document.getElementById('openExternal');
+    const expandBtn = document.getElementById('expandBtn');
+    const breakdown = document.getElementById('breakdown');
+    let currentProject = null;
+
+    function setStageHTML(html, externalUrl = '#') {
+      stage.innerHTML = html;
+      openExternal.href = externalUrl;
+      openExternal.style.display = externalUrl === '#' ? 'none' : 'inline-flex';
+    }
+
+    function loadDriveMedia(id, label = 'Drive media') {
+      setStageHTML(`<iframe title="${label}" src="${drivePreview(id)}" loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`, driveView(id));
+    }
+
+    function loadSketchfab(url) {
+      setStageHTML(`<iframe title="Interactive 3D model" src="${url}" loading="lazy" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen></iframe>`, url.replace('/embed', ''));
+    }
+
+    function showMediaSection(section, index = 0) {
+      if (!currentProject) return;
+      document.querySelectorAll('.media-tab').forEach((tab) => tab.classList.toggle('active', tab.dataset.section === section));
+      mediaList.innerHTML = '';
+
+      if (section === 'main') {
+        loadDriveMedia(currentProject.mainMedia.id, currentProject.mainMedia.label);
+        return;
+      }
+
+      if (section === 'gallery') {
+        const items = currentProject.gallery || [];
+        mediaList.innerHTML = items.map((id, i) => `<button class="media-item ${i === index ? 'active' : ''}" type="button" data-kind="gallery" data-index="${i}">Render ${String(i + 1).padStart(2, '0')}</button>`).join('');
+        if (items[index]) loadDriveMedia(items[index], `Render ${index + 1}`);
+      }
+
+      if (section === 'aiRenders') {
+        const items = currentProject.aiRenders || [];
+        mediaList.innerHTML = items.map((id, i) => `<button class="media-item ${i === index ? 'active' : ''}" type="button" data-kind="aiRenders" data-index="${i}">AI test ${String(i + 1).padStart(2, '0')}</button>`).join('');
+        if (items[index]) loadDriveMedia(items[index], `AI realism test ${index + 1}`);
+      }
+
+      if (section === 'sketchfab') {
+        loadSketchfab(currentProject.sketchfab);
+      }
+
+      document.querySelectorAll('.media-item').forEach((item) => {
+        item.addEventListener('click', () => showMediaSection(item.dataset.kind, Number(item.dataset.index)));
+      });
+    }
+
+    function openProject(projectId) {
+      currentProject = PROJECTS.find((project) => project.id === projectId);
+      if (!currentProject) return;
+
+      document.getElementById('modalCategory').textContent = currentProject.categoryLabel;
+      document.getElementById('modalTitle').innerHTML = `${currentProject.title}<br><span style="color:var(--orange)">${currentProject.subtitle}</span>`;
+      document.getElementById('modalDescription').textContent = currentProject.description;
+      document.getElementById('modalInfoGrid').innerHTML = `
+        <div class="info-box"><small>Client</small><strong>${currentProject.client}</strong></div>
+        <div class="info-box"><small>Year</small><strong>${currentProject.year}</strong></div>
+        <div class="info-box"><small>Role</small><strong>${currentProject.role}</strong></div>
+        <div class="info-box"><small>Tools</small><strong>${currentProject.tools}</strong></div>
+      `;
+      document.getElementById('modalHighlights').innerHTML = currentProject.highlights.map((item) => `<div class="highlight">${item}</div>`).join('');
+      breakdown.innerHTML = `<h3>Full breakdown</h3><p>${currentProject.breakdown}</p>`;
+      breakdown.classList.remove('open');
+      expandBtn.textContent = 'Show full breakdown';
+
+      const sections = [{ id: 'main', label: currentProject.mainMedia.label || 'Main media' }];
+      if (currentProject.gallery?.length) sections.push({ id: 'gallery', label: `Render gallery (${currentProject.gallery.length})` });
+      if (currentProject.aiRenders?.length) sections.push({ id: 'aiRenders', label: `AI realism (${currentProject.aiRenders.length})` });
+      if (currentProject.sketchfab) sections.push({ id: 'sketchfab', label: 'Interactive 3D model' });
+      mediaTabs.innerHTML = sections.map((section, i) => `<button class="media-tab ${i === 0 ? 'active' : ''}" type="button" data-section="${section.id}">${section.label}</button>`).join('');
+      document.querySelectorAll('.media-tab').forEach((tab) => tab.addEventListener('click', () => showMediaSection(tab.dataset.section)));
+      showMediaSection('main');
+
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeProject() {
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+      stage.innerHTML = '';
+      mediaList.innerHTML = '';
+      currentProject = null;
+      document.body.style.overflow = '';
+    }
+
+    document.querySelector('.close-modal').addEventListener('click', closeProject);
+    modal.addEventListener('click', (event) => { if (event.target === modal) closeProject(); });
+    window.addEventListener('keydown', (event) => { if (event.key === 'Escape' && modal.classList.contains('open')) closeProject(); });
+    expandBtn.addEventListener('click', () => {
+      breakdown.classList.toggle('open');
+      expandBtn.textContent = breakdown.classList.contains('open') ? 'Hide full breakdown' : 'Show full breakdown';
+    });
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
