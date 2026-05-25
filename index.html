@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ezz - Eldeen Tantawy | Creative Portfolio</title>
   <meta name="description" content="Creative portfolio for Ezz - Eldeen Tantawy — video editing, 3D visualization, rendering, and AI-assisted video production." />
+  <link rel="icon" type="image/png" href="assets/ezz-favicon.png" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <style>
     :root {
       --bg: #0d0d0d;
@@ -813,6 +815,64 @@
     .media-item:hover,
     .media-item.active { background: var(--orange); color: var(--white); border-color: rgba(255,106,0,.65); transform: translateY(-2px); }
 
+
+
+    .media-item.locked {
+      opacity: .82;
+      border-style: dashed;
+      cursor: help;
+      color: rgba(255,255,255,.66);
+      background: rgba(255,255,255,.045);
+    }
+
+    .media-item.locked:hover,
+    .media-item.locked.active {
+      background: rgba(255,106,0,.13);
+      border-color: rgba(255,106,0,.45);
+      color: #ffd6bd;
+      transform: translateY(-2px);
+    }
+
+    .locked-stage {
+      height: 100%;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: clamp(22px, 4vw, 44px);
+      background:
+        radial-gradient(circle at 50% 35%, rgba(255,106,0,.18), transparent 34%),
+        linear-gradient(135deg, rgba(255,255,255,.07), rgba(255,255,255,.025));
+    }
+
+    .locked-stage .lock-icon {
+      width: 68px;
+      height: 68px;
+      margin: 0 auto 18px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255,106,0,.42);
+      background: rgba(255,106,0,.12);
+      color: var(--orange);
+      font-size: 28px;
+      box-shadow: 0 18px 46px rgba(255,106,0,.12);
+    }
+
+    .locked-stage strong {
+      display: block;
+      color: var(--white);
+      font-size: clamp(22px, 3vw, 34px);
+      letter-spacing: -.055em;
+      margin-bottom: 10px;
+    }
+
+    .locked-stage p {
+      max-width: 560px;
+      color: rgba(255,255,255,.64);
+      line-height: 1.65;
+      margin: 0 auto;
+    }
+
     .modal-info {
       padding: 32px;
       overflow: auto;
@@ -965,7 +1025,7 @@
           <div class="metrics">
             <div class="metric interactive"><strong>3D</strong><span>Spatial visualization, branded interiors, modeling, rendering, and presentation films.</span></div>
             <div class="metric interactive"><strong>EDIT</strong><span>Fast-turnaround reels, campaign content, corporate stories, and social-first edits.</span></div>
-            <div class="metric interactive"><strong>AI</strong><span>ComfyUI, image-to-video workflows, prompt planning, and cinematic AI animation tests.</span></div>
+            <div class="metric interactive"><strong>AI</strong><span>ComfyUI, image-to-video workflows, prompt planning, and cinematic AI animation.</span></div>
           </div>
         </div>
       </section>
@@ -1058,7 +1118,7 @@
         <div class="tab-content" id="ai" role="tabpanel">
           <div class="gallery-head">
             <div><h3>Experimental AI motion with production intent.</h3></div>
-            <p>Image-to-video tests, ComfyUI workflows, and AI animation experiments refined through planning and prompts.</p>
+            <p>Image-to-video workflows, ComfyUI systems, and AI animation pieces refined through planning and post-production.</p>
           </div>
           <div class="carousel-wrap">
             <div class="project-track" data-category="ai"></div>
@@ -1127,77 +1187,201 @@
   <script>
     const PROJECTS = [
       {
-        id: "automotive-service-center",
-        category: "threeD",
-        categoryLabel: "3D Animation & Rendering",
-        title: "Plan → Model → Reality",
-        subtitle: "Automotive Customer Service Center Visualization",
-        cardDescription: "A spatial branding visualization turning a flat floor plan into a complete rendered customer-service environment.",
-        thumbnail: "assets/project-automotive-service-center.jpg",
-        type: "Mixed project",
-        client: "Automotive Customer Service Center",
-        year: "2026",
-        role: "3D modeling and rendering",
-        tools: "Blender, Photoshop, ComfyUI",
-        mainMedia: { label: "Project film", type: "drive", id: "1ZnTxMSdc6jx3GkUhPu-dsXTbrpYrDF-h" },
-        gallery: [
-          "108WCYyFM_mW72J1c983kZp-tOUL55JGk", "10YoCiLyNowRK-WmFKyMXC85vD48_XCv2", "1427sCOtQmGH4g_2RVPwjf8zUuQ8lFWyJ", "14Yj0ozJGmVu8L3xim1XRs8VZinrHa3Rm", "1B7H3O60PpaiXEf-zlp0SLzyuN2S_Ti11", "1F0XIQjgommn4BthummzK4_zU61F0XAFJ", "1GIjJvVtb_jJXWJW9LOc-ITWtPTHyOOp9", "1HDBBKxR1Xx53Lmb1-3tjXL3j4zVZGDxE", "1QMl_dT9HIqrA2Sf47U9eLY46YropvBFS", "1RzSCuUtBXO2ON2IWSD83xB_0dtLzHIaM", "1VB0ZBtpIKCgap1cMYSs-moGb1yKa6h4Q", "1VKkgoHCOGMu1zHdH0j73_5TbAwcixZQO", "1dN3qYTVBrJ_Ql5JcnzMQgDPSQBQ4AeP3", "1e22eK7xuyWTQtfgdC8DidFJTOtgO9Faz", "1fDr8kTm_0kTOK-NgG7a7hI-yAUHMyfI5", "1h6vw-hqLDPMwuvweCutE_Ftlgb9xXkHX", "1n4uPsuyumtPV6EfA0Gl2Y27mAv6X9jp6", "1ses_aBFl-Z9WTYRwlfxk3GPJm3JA-YU9", "1xXaqEtrhKlwjhi0qKKav1ABu_HHkRHNi", "1zBCzUcLDLvQRCRo5wSGdZsWvOcmHD0B9"
-        ],
-        aiRenders: ["1ABuqrFDy1Dx0BZpGa3vLZpJn42R4pPsU", "1Izket4K-IikE9031e7OkEm9U5MIuoXB-", "1OMOkvGMj7SobrCYG4WM0ZJIRCDJRrVT1", "1nocwhes7ucVX8J54pPcgoQIklA3qf1tQ"],
-        sketchfab: "https://sketchfab.com/models/c6b54480588c4a7881e04c6ef031e2ff/embed",
-        description: "A full 3D branding visualization that transforms a flat layout into an immersive service-center environment. The project moves from floor plan to 3D build, final renders, AI-assisted realism tests, and an interactive asset preview.",
-        highlights: [
-          "Translated a 2D layout into a complete 3D spatial story.",
-          "Built a visual route that shows process: plan, model, and final rendered experience.",
-          "Included AI realism refinements to push selected renders closer to a photographic look."
-        ],
-        breakdown: "The value of this project is in showing the transformation, not just the final image. The viewer can understand how a flat plan becomes a branded environment through modeling, material choices, render framing, AI-assisted realism tests, and a supporting Sketchfab asset."
+            "id": "automotive-service-center",
+            "category": "threeD",
+            "categoryLabel": "3D Animation & Rendering",
+            "title": "Plan → Model → Reality",
+            "subtitle": "Automotive Customer Service Center Visualization",
+            "cardDescription": "A spatial branding visualization turning a flat service-center plan into a polished, client-ready 3D environment.",
+            "thumbnail": "assets/project-automotive-service-center.jpg",
+            "type": "Mixed project",
+            "client": "Automotive Customer Service Center",
+            "year": "2026",
+            "role": "3D modeling and rendering",
+            "tools": "Blender, Photoshop, ComfyUI",
+            "mainMedia": {
+                  "label": "Project film",
+                  "type": "drive",
+                  "id": "1ZnTxMSdc6jx3GkUhPu-dsXTbrpYrDF-h"
+            },
+            "gallery": [
+                  "108WCYyFM_mW72J1c983kZp-tOUL55JGk",
+                  "10YoCiLyNowRK-WmFKyMXC85vD48_XCv2",
+                  "1427sCOtQmGH4g_2RVPwjf8zUuQ8lFWyJ",
+                  "14Yj0ozJGmVu8L3xim1XRs8VZinrHa3Rm",
+                  "1B7H3O60PpaiXEf-zlp0SLzyuN2S_Ti11",
+                  "1F0XIQjgommn4BthummzK4_zU61F0XAFJ",
+                  "1GIjJvVtb_jJXWJW9LOc-ITWtPTHyOOp9",
+                  "1HDBBKxR1Xx53Lmb1-3tjXL3j4zVZGDxE",
+                  "1QMl_dT9HIqrA2Sf47U9eLY46YropvBFS",
+                  "1RzSCuUtBXO2ON2IWSD83xB_0dtLzHIaM",
+                  "1VB0ZBtpIKCgap1cMYSs-moGb1yKa6h4Q",
+                  "1VKkgoHCOGMu1zHdH0j73_5TbAwcixZQO",
+                  "1dN3qYTVBrJ_Ql5JcnzMQgDPSQBQ4AeP3",
+                  "1e22eK7xuyWTQtfgdC8DidFJTOtgO9Faz",
+                  "1fDr8kTm_0kTOK-NgG7a7hI-yAUHMyfI5",
+                  "1h6vw-hqLDPMwuvweCutE_Ftlgb9xXkHX",
+                  "1n4uPsuyumtPV6EfA0Gl2Y27mAv6X9jp6",
+                  "1ses_aBFl-Z9WTYRwlfxk3GPJm3JA-YU9",
+                  "1xXaqEtrhKlwjhi0qKKav1ABu_HHkRHNi",
+                  "1zBCzUcLDLvQRCRo5wSGdZsWvOcmHD0B9"
+            ],
+            "aiRenders": [
+                  "1ABuqrFDy1Dx0BZpGa3vLZpJn42R4pPsU",
+                  "1Izket4K-IikE9031e7OkEm9U5MIuoXB-",
+                  "1OMOkvGMj7SobrCYG4WM0ZJIRCDJRrVT1",
+                  "1nocwhes7ucVX8J54pPcgoQIklA3qf1tQ"
+            ],
+            "sketchfab": "https://sketchfab.com/models/c6b54480588c4a7881e04c6ef031e2ff/embed",
+            "sectionLabels": {
+                  "aiRenders": {
+                        "tab": "AI realism samples (4)",
+                        "item": "AI sample"
+                  }
+            },
+            "lockedSections": {
+                  "gallery": {
+                        "tab": "Protected render gallery (20)",
+                        "item": "Protected render",
+                        "title": "Render gallery protected",
+                        "message": "Selected render images are locked for client privacy. Public previews remain limited, while the AI realism samples are available to explore."
+                  }
+            },
+            "description": "A full 3D branding visualization that transforms a flat layout into an immersive service-center environment. The project moves from floor plan to 3D build, final renders, AI-assisted realism samples, and an interactive asset preview.",
+            "highlights": [
+                  "Translated a 2D layout into a complete 3D spatial story.",
+                  "Built a visual route that shows process: plan, model, and final rendered experience.",
+                  "Included AI realism refinements to push selected renders closer to a photographic look."
+            ],
+            "breakdown": "The value of this project is in showing the transformation, not just the final image. It demonstrates how a flat plan can become a branded environment through modeling, material choices, render framing, AI-assisted realism tests, and a supporting interactive 3D asset. Some render previews are intentionally restricted due to client privacy."
       },
       {
-        id: "urgent-course-reel",
-        category: "editing",
-        categoryLabel: "Video Editing",
-        title: "2-Hour Turnaround",
-        subtitle: "Urgent Course Promo Reel",
-        cardDescription: "An urgent education promo reel delivered in 2 hours under deadline pressure for immediate publishing.",
-        thumbnail: "assets/project-urgent-course-reel.jpg",
-        type: "Reel edit",
-        client: "Mr. Ahmed Samak",
-        year: "2026",
-        role: "Fast-turnaround reel editing",
-        tools: "Premiere Pro, social export workflow",
-        mainMedia: { label: "Final reel", type: "drive", id: "17M09AAN8D0vzx-_8YHT_WgctG3zGwwjj" },
-        description: "A rush educational promo reel created for an urgent course campaign. The client needed the video within 12 hours, and the final edit was delivered only 2 hours after the request.",
-        highlights: [
-          "Delivered in 2 hours under urgent deadline pressure.",
-          "Edited for immediate social media publishing.",
-          "Focused on direct pacing, clarity, and fast promotional impact."
-        ],
-        breakdown: "This project is about reliability under pressure. The edit needed to move quickly from raw material to a usable social-media post while keeping the message clear and the pacing direct enough for a course promotion."
+            "id": "private-apartment-visualization",
+            "category": "threeD",
+            "categoryLabel": "3D Animation & Rendering",
+            "title": "Private Apartment Interior Visualization",
+            "subtitle": "Photoreal Blender Render Study",
+            "cardDescription": "A private interior visualization project focused on cinematic lighting, material detailing, and polished render presentation.",
+            "thumbnail": "assets/project-apartment-visualization.jpg",
+            "type": "3D visualization",
+            "client": "Private",
+            "year": "2025",
+            "role": "3D modeling and rendering",
+            "tools": "Blender, Photoshop",
+            "mainMedia": {
+                  "label": "Hero render",
+                  "type": "drive",
+                  "id": "1Mp1hzlLclSoSisMvUzr87OWgCL1dMwi6"
+            },
+            "gallery": [
+                  "1Mp1hzlLclSoSisMvUzr87OWgCL1dMwi6",
+                  "1N8ARrwt66TH01VS9sq_hHA2L8uguaR8Y",
+                  "1TckQm89sG1hWbaGzoP4w7YnIaOP9r7fx",
+                  "1fUcNfHJtvfkWPEW_6uQNOWvrmHejEXfl",
+                  "1i62QaFUR8gSWr2iFtfdn-t6Ax_jw36Jb"
+            ],
+            "screenshots": [
+                  "1CiFp-YzDACT2LH732eiexABE8RUCRdg7",
+                  "1NsOFOR4kdavBR7MWD9kHgi_Qk5PE4mju",
+                  "1m1d1oxg0KFdO4EFrrYa3XoquAu3X_Tr8"
+            ],
+            "sectionLabels": {
+                  "gallery": {
+                        "tab": "Final renders (5)",
+                        "item": "Render"
+                  },
+                  "screenshots": {
+                        "tab": "Workflow screenshots (3)",
+                        "item": "Screenshot"
+                  }
+            },
+            "description": "A private apartment visualization built to present interior design details through polished 3D renders. The focus was on lighting, materials, camera framing, and a clean presentation style that makes the space feel tangible before production.",
+            "highlights": [
+                  "Created a photoreal interior presentation from a private apartment concept.",
+                  "Balanced warm lighting, blue accent materials, wood details, and cinematic framing.",
+                  "Included workflow screenshots to show the Blender build behind the final renders."
+            ],
+            "breakdown": "This project focused on turning a private interior concept into a cohesive visual presentation. The process included 3D modeling, scene layout, lighting setup, material refinement, camera composition, and final Photoshop polish for a more premium apartment visualization."
       },
       {
-        id: "comfyui-veneer-animation",
-        category: "ai",
-        categoryLabel: "AI Video Editing",
-        title: "ComfyUI Image → Video Test",
-        subtitle: "Veneer Transformation Animation",
-        cardDescription: "An AI animation experiment using a batch image-to-video workflow to turn dental before/after frames into cinematic motion.",
-        thumbnail: "assets/project-comfyui-ai-animation.jpg",
-        type: "AI animation",
-        client: "Dr. Saad Tantawy",
-        year: "2026",
-        role: "AI animation workflow, frame planning, and prompt direction",
-        tools: "ComfyUI, Wan 2.2, image-to-video workflow",
-        mainMedia: { label: "AI animation", type: "drive", id: "1vZBpsHpuFRtzJGKwiyB60JmP-jZozSzt" },
-        description: "An experimental ComfyUI image-to-video workflow using multiple planned input frames to generate a single animated transformation. The project tested how frame quality, prompt control, and AI motion can make a dental before/after result feel more cinematic and engaging.",
-        highlights: [
-          "Built around a batch image-to-video workflow in ComfyUI.",
-          "Used Wan 2.2 to test controlled transitions between planned input frames.",
-          "Explored how prompt planning and frame quality affect the final AI animation."
-        ],
-        breakdown: "The project was part of a larger exploration into AI-assisted video production. Some generations needed more control, but the strongest results showed how frame planning and precise prompting can turn static before/after visuals into a more engaging animated presentation."
+            "id": "urgent-course-reel",
+            "category": "editing",
+            "categoryLabel": "Video Editing",
+            "title": "2-Hour Turnaround",
+            "subtitle": "Urgent Course Promo Reel",
+            "cardDescription": "An urgent education promo reel delivered in 2 hours under deadline pressure for immediate publishing.",
+            "thumbnail": "assets/project-urgent-course-reel.jpg",
+            "type": "Reel edit",
+            "client": "Mr. Ahmed Samak",
+            "year": "2026",
+            "role": "Fast-turnaround reel editing",
+            "tools": "Premiere Pro, social export workflow",
+            "mainMedia": {
+                  "label": "Final reel",
+                  "type": "drive",
+                  "id": "17M09AAN8D0vzx-_8YHT_WgctG3zGwwjj"
+            },
+            "description": "A rush educational promo reel created for an urgent course campaign. The client needed the video within 12 hours, and the final edit was delivered only 2 hours after the request.",
+            "highlights": [
+                  "Delivered in 2 hours under urgent deadline pressure.",
+                  "Edited for immediate social media publishing.",
+                  "Focused on direct pacing, clarity, and fast promotional impact."
+            ],
+            "breakdown": "This project is about reliability under pressure. The edit needed to move quickly from raw material to a usable social-media post while keeping the message clear and the pacing direct enough for a course promotion."
+      },
+      {
+            "id": "comfyui-veneer-animation",
+            "category": "ai",
+            "categoryLabel": "AI Video Editing",
+            "title": "AI Smile Transformation Animation",
+            "subtitle": "Veneer Case Motion Workflow",
+            "cardDescription": "A ComfyUI image-to-video workflow turning planned dental before-and-after frames into a cinematic transformation animation.",
+            "thumbnail": "assets/project-comfyui-ai-animation.jpg",
+            "type": "AI animation",
+            "client": "Dr. Saad Tantawy",
+            "year": "2026",
+            "role": "AI animation workflow, frame planning, and prompt direction",
+            "tools": "ComfyUI, Wan 2.2, image-to-video workflow",
+            "mainMedia": {
+                  "label": "AI animation",
+                  "type": "drive",
+                  "id": "1vZBpsHpuFRtzJGKwiyB60JmP-jZozSzt"
+            },
+            "description": "A ComfyUI image-to-video workflow using multiple planned input frames to generate a cinematic dental transformation. The project explored how frame quality, prompt control, and AI motion can make a before-and-after result feel more engaging and presentation-ready.",
+            "highlights": [
+                  "Built around a batch image-to-video workflow in ComfyUI.",
+                  "Used Wan 2.2 to create controlled transitions between planned input frames.",
+                  "Explored how prompt planning and frame quality affect the final AI animation."
+            ],
+            "breakdown": "The project was part of a broader exploration into AI-assisted video production for clinical presentation. The strongest results showed how frame planning and precise prompting can turn static before-and-after visuals into a more engaging animated case reveal."
+      },
+      {
+            "id": "ai-building-vfx-animation",
+            "category": "ai",
+            "categoryLabel": "AI Video Editing",
+            "title": "AI-Powered Building VFX Animation",
+            "subtitle": "Drone Footage to Cinematic Motion",
+            "cardDescription": "A cinematic AI-assisted VFX sequence built from real drone footage, controlled frames, and a custom image-to-video workflow.",
+            "thumbnail": "assets/project-ai-building-vfx-animation.jpg",
+            "type": "AI VFX animation",
+            "client": "Skidmore, Owings & Merrill (SOM)",
+            "year": "2026",
+            "role": "AI VFX video editing",
+            "tools": "Premiere Pro, ComfyUI",
+            "mainMedia": {
+                  "label": "Final AI VFX animation",
+                  "type": "drive",
+                  "id": "1R8n950aD5KmSwbZDc7ES66uzDdDf7UNx"
+            },
+            "description": "A hybrid AI VFX workflow built around real drone footage of a tower. Key frames were extracted from the orbit shot, enhanced with AI-generated visual effects, then processed through a custom frame-to-video pipeline and refined in Premiere Pro.",
+            "highlights": [
+                  "Transformed real drone footage into a cinematic AI-assisted VFX sequence.",
+                  "Built from six controlled frames using a custom image-to-video workflow.",
+                  "Combined AI image editing, ComfyUI generation, and Premiere Pro finishing."
+            ],
+            "breakdown": "The project started with drone footage orbiting the building. Selected frames were extracted and enhanced using AI image-editing tools to create a consistent VFX direction. Those frames were then processed through a dedicated image-to-video pipeline, with the final animation polished in Premiere Pro for a cleaner, more cinematic result."
       }
-    ];
+];
 
     const root = document.documentElement;
     const dot = document.querySelector('.cursor-dot');
@@ -1329,6 +1513,7 @@
     const breakdown = document.getElementById('breakdown');
     let currentProject = null;
 
+
     function setStageHTML(html, externalUrl = '#') {
       stage.innerHTML = html;
       openExternal.href = externalUrl;
@@ -1343,6 +1528,44 @@
       setStageHTML(`<iframe title="Interactive 3D model" src="${url}" loading="lazy" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen></iframe>`, url.replace('/embed', ''));
     }
 
+    function getSectionMeta(section) {
+      return currentProject?.sectionLabels?.[section] || {};
+    }
+
+    function showLockedSection(section) {
+      const locked = currentProject.lockedSections?.[section] || {};
+      const count = (currentProject[section] || []).length;
+      const itemLabel = locked.item || 'Protected media';
+      mediaList.innerHTML = Array.from({ length: count }, (_, i) => `
+        <button class="media-item locked" type="button" title="Locked for client privacy" data-locked="true">
+          🔒 ${itemLabel} ${String(i + 1).padStart(2, '0')}
+        </button>
+      `).join('');
+      setStageHTML(`
+        <div class="locked-stage">
+          <div>
+            <div class="lock-icon">🔒</div>
+            <strong>${locked.title || 'Media locked'}</strong>
+            <p>${locked.message || 'This media is locked for client privacy.'}</p>
+          </div>
+        </div>
+      `, '#');
+      document.querySelectorAll('.media-item.locked').forEach((item) => {
+        item.addEventListener('click', () => showLockedSection(section));
+      });
+    }
+
+    function showDriveSection(section, index = 0) {
+      const items = currentProject[section] || [];
+      const meta = getSectionMeta(section);
+      const itemLabel = meta.item || (section === 'aiRenders' ? 'AI sample' : section === 'screenshots' ? 'Screenshot' : 'Render');
+      mediaList.innerHTML = items.map((id, i) => `<button class="media-item ${i === index ? 'active' : ''}" type="button" data-kind="${section}" data-index="${i}">${itemLabel} ${String(i + 1).padStart(2, '0')}</button>`).join('');
+      if (items[index]) loadDriveMedia(items[index], `${itemLabel} ${index + 1}`);
+      document.querySelectorAll('.media-item').forEach((item) => {
+        item.addEventListener('click', () => showMediaSection(item.dataset.kind, Number(item.dataset.index)));
+      });
+    }
+
     function showMediaSection(section, index = 0) {
       if (!currentProject) return;
       document.querySelectorAll('.media-tab').forEach((tab) => tab.classList.toggle('active', tab.dataset.section === section));
@@ -1353,25 +1576,19 @@
         return;
       }
 
-      if (section === 'gallery') {
-        const items = currentProject.gallery || [];
-        mediaList.innerHTML = items.map((id, i) => `<button class="media-item ${i === index ? 'active' : ''}" type="button" data-kind="gallery" data-index="${i}">Render ${String(i + 1).padStart(2, '0')}</button>`).join('');
-        if (items[index]) loadDriveMedia(items[index], `Render ${index + 1}`);
+      if (currentProject.lockedSections?.[section]) {
+        showLockedSection(section);
+        return;
       }
 
-      if (section === 'aiRenders') {
-        const items = currentProject.aiRenders || [];
-        mediaList.innerHTML = items.map((id, i) => `<button class="media-item ${i === index ? 'active' : ''}" type="button" data-kind="aiRenders" data-index="${i}">AI test ${String(i + 1).padStart(2, '0')}</button>`).join('');
-        if (items[index]) loadDriveMedia(items[index], `AI realism test ${index + 1}`);
+      if (section === 'gallery' || section === 'aiRenders' || section === 'screenshots') {
+        showDriveSection(section, index);
+        return;
       }
 
       if (section === 'sketchfab') {
         loadSketchfab(currentProject.sketchfab);
       }
-
-      document.querySelectorAll('.media-item').forEach((item) => {
-        item.addEventListener('click', () => showMediaSection(item.dataset.kind, Number(item.dataset.index)));
-      });
     }
 
     function openProject(projectId) {
@@ -1392,9 +1609,11 @@
       breakdown.classList.remove('open');
       expandBtn.textContent = 'Show full breakdown';
 
+      const sectionLabel = (id, fallback) => currentProject.lockedSections?.[id]?.tab || currentProject.sectionLabels?.[id]?.tab || fallback;
       const sections = [{ id: 'main', label: currentProject.mainMedia.label || 'Main media' }];
-      if (currentProject.gallery?.length) sections.push({ id: 'gallery', label: `Render gallery (${currentProject.gallery.length})` });
-      if (currentProject.aiRenders?.length) sections.push({ id: 'aiRenders', label: `AI realism (${currentProject.aiRenders.length})` });
+      if (currentProject.gallery?.length) sections.push({ id: 'gallery', label: sectionLabel('gallery', `Render gallery (${currentProject.gallery.length})`) });
+      if (currentProject.aiRenders?.length) sections.push({ id: 'aiRenders', label: sectionLabel('aiRenders', `AI realism (${currentProject.aiRenders.length})`) });
+      if (currentProject.screenshots?.length) sections.push({ id: 'screenshots', label: sectionLabel('screenshots', `Workflow screenshots (${currentProject.screenshots.length})`) });
       if (currentProject.sketchfab) sections.push({ id: 'sketchfab', label: 'Interactive 3D model' });
       mediaTabs.innerHTML = sections.map((section, i) => `<button class="media-tab ${i === 0 ? 'active' : ''}" type="button" data-section="${section.id}">${section.label}</button>`).join('');
       document.querySelectorAll('.media-tab').forEach((tab) => tab.addEventListener('click', () => showMediaSection(tab.dataset.section)));
