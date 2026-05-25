@@ -135,6 +135,243 @@
 
     .interactive:hover::before { opacity: 1; }
 
+
+    /* Theme mode switch: dark/light profile-aware visual system */
+    body,
+    body::before,
+    body::after,
+    .nav,
+    .hero-photo,
+    .hero-copy,
+    .panel,
+    .tabs-shell,
+    .project-card,
+    .process-card,
+    .contact-card,
+    .metric,
+    .tab-btn,
+    .gallery-head p,
+    .section-head p,
+    footer,
+    .modal,
+    .modal-card {
+      transition:
+        background 1.35s cubic-bezier(.2,.8,.2,1),
+        background-color 1.35s cubic-bezier(.2,.8,.2,1),
+        color 1.1s cubic-bezier(.2,.8,.2,1),
+        border-color 1.1s cubic-bezier(.2,.8,.2,1),
+        box-shadow 1.1s cubic-bezier(.2,.8,.2,1),
+        filter 1.1s cubic-bezier(.2,.8,.2,1);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .theme-switch {
+      position: relative;
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      color: rgba(255,255,255,.9);
+      padding: 5px 7px 5px 12px;
+      font-weight: 950;
+      cursor: pointer;
+      overflow: hidden;
+      transition: .28s ease;
+    }
+
+    .theme-switch:hover { transform: translateY(-2px); border-color: rgba(255,106,0,.55); }
+    .theme-switch:disabled { opacity: .72; pointer-events: none; }
+
+    .theme-switch-icon { font-size: 15px; line-height: 1; color: var(--orange); }
+    .theme-switch-text { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+
+    .theme-switch-track {
+      width: 54px;
+      height: 30px;
+      border-radius: 999px;
+      background: #0b0b0b;
+      border: 1px solid rgba(255,255,255,.14);
+      display: inline-flex;
+      align-items: center;
+      padding: 3px;
+      transition: .8s cubic-bezier(.2,.8,.2,1);
+      box-shadow: inset 0 0 18px rgba(0,0,0,.42);
+    }
+
+    .theme-switch-thumb {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 28%, #fff, #ffd0ad 46%, var(--orange));
+      box-shadow: 0 0 18px rgba(255,106,0,.65);
+      transform: translateX(0);
+      transition: transform .8s cubic-bezier(.2,.8,.2,1), background .8s ease;
+    }
+
+    .theme-orbit-wash {
+      position: fixed;
+      inset: -30%;
+      z-index: 120;
+      pointer-events: none;
+      opacity: 0;
+      transform: scale(.78) rotateX(0deg) rotateY(0deg);
+      transform-origin: center;
+      background:
+        conic-gradient(from 90deg at 50% 50%, transparent 0deg, rgba(255,106,0,.28) 65deg, rgba(255,255,255,.22) 120deg, transparent 190deg, rgba(255,106,0,.20) 260deg, transparent 360deg),
+        radial-gradient(circle at 50% 50%, rgba(255,106,0,.20), transparent 52%);
+      mix-blend-mode: screen;
+      filter: blur(8px);
+    }
+
+    .page { transform-style: preserve-3d; }
+    body.theme-animating { perspective: 1600px; overflow-x: hidden; }
+    body.theme-animating .theme-orbit-wash { animation: themeWash 4.25s cubic-bezier(.2,.8,.2,1) both; }
+    body.theme-animating .page { animation: themeOrbit 4.25s cubic-bezier(.16,.84,.24,1) both; transform-origin: 50% 18%; }
+
+    @keyframes themeOrbit {
+      0% { transform: translateZ(0) rotateX(0) rotateY(0) scale(1); filter: brightness(1) saturate(1); }
+      18% { transform: translateZ(-55px) rotateX(4deg) rotateY(-7deg) scale(.985); filter: brightness(.86) saturate(1.18); }
+      46% { transform: translateZ(-110px) rotateX(-6deg) rotateY(16deg) scale(.955); filter: brightness(1.18) saturate(1.34); }
+      72% { transform: translateZ(-38px) rotateX(3deg) rotateY(-6deg) scale(.986); filter: brightness(1.05) saturate(1.08); }
+      100% { transform: translateZ(0) rotateX(0) rotateY(0) scale(1); filter: brightness(1) saturate(1); }
+    }
+
+    @keyframes themeWash {
+      0% { opacity: 0; transform: scale(.72) rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+      18% { opacity: .34; }
+      50% { opacity: .72; transform: scale(1.12) rotateX(26deg) rotateY(36deg) rotateZ(120deg); }
+      82% { opacity: .24; }
+      100% { opacity: 0; transform: scale(1.35) rotateX(0deg) rotateY(0deg) rotateZ(220deg); }
+    }
+
+    body.theme-light {
+      color: var(--ink);
+      background:
+        radial-gradient(circle at var(--mouse-x) var(--mouse-y), rgba(255,106,0,.18), transparent 24vw),
+        radial-gradient(circle at 16% 8%, rgba(255,106,0,.18), transparent 30%),
+        radial-gradient(circle at 88% 16%, rgba(16,16,16,.08), transparent 28%),
+        #f7f3ec;
+    }
+
+    body.theme-light::before {
+      background-image:
+        linear-gradient(rgba(16,16,16,.095) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(16,16,16,.095) 1px, transparent 1px);
+      opacity: .46;
+    }
+
+    body.theme-light::after { opacity: .038; }
+    body.theme-light .cursor-ring { border-color: rgba(16,16,16,.62); mix-blend-mode: multiply; }
+    body.theme-light .cursor-glow { mix-blend-mode: multiply; background: radial-gradient(circle, rgba(255,106,0,.18), rgba(0,0,0,.035) 34%, transparent 66%); }
+
+    body.theme-light .theme-switch {
+      background: rgba(16,16,16,.055);
+      color: var(--ink);
+      border-color: rgba(16,16,16,.13);
+    }
+    body.theme-light .theme-switch-track { background: #fff; border-color: rgba(16,16,16,.12); box-shadow: inset 0 0 18px rgba(0,0,0,.09); }
+    body.theme-light .theme-switch-thumb { transform: translateX(24px); background: radial-gradient(circle at 35% 35%, #fff, #f0f0f0 58%, #bfb7ae); box-shadow: 0 0 18px rgba(0,0,0,.16); }
+
+    body.theme-light .nav {
+      background: rgba(255,255,255,.76);
+      border-color: rgba(16,16,16,.13);
+      color: var(--ink);
+      box-shadow: 0 18px 48px rgba(0,0,0,.12);
+    }
+    body.theme-light .nav-links { color: rgba(16,16,16,.62); }
+    body.theme-light .nav-links a:hover { color: var(--ink); background: rgba(16,16,16,.065); }
+    body.theme-light .nav-cta { background: var(--ink); color: var(--white); }
+    body.theme-light .nav-cta:hover { background: var(--orange); color: var(--white); }
+
+    body.theme-light .hero-photo {
+      background: #f8f5ee;
+      border-color: rgba(16,16,16,.14);
+      box-shadow: 0 34px 90px rgba(0,0,0,.16);
+    }
+    body.theme-light .hero-photo::after {
+      background:
+        linear-gradient(to top, rgba(255,255,255,.52), transparent 48%),
+        radial-gradient(circle at var(--mouse-x) var(--mouse-y), rgba(255,106,0,.18), transparent 28vw);
+    }
+    body.theme-light .photo-tags span {
+      background: rgba(255,255,255,.70);
+      color: var(--ink);
+      border-color: rgba(16,16,16,.12);
+    }
+
+    body.theme-light .hero-copy,
+    body.theme-light .panel.light,
+    body.theme-light .contact-card {
+      background: rgba(255,255,255,.86);
+      border-color: rgba(16,16,16,.12);
+      box-shadow: 0 30px 78px rgba(0,0,0,.12);
+    }
+
+    body.theme-light .section-head p,
+    body.theme-light .gallery-head p,
+    body.theme-light footer { color: rgba(16,16,16,.60); }
+
+    body.theme-light .panel,
+    body.theme-light .tabs-shell,
+    body.theme-light .process-card,
+    body.theme-light .project-card {
+      background: rgba(255,255,255,.78);
+      color: var(--ink);
+      border-color: rgba(16,16,16,.12);
+      box-shadow: 0 26px 70px rgba(0,0,0,.11);
+    }
+    body.theme-light .panel p,
+    body.theme-light .project-body p,
+    body.theme-light .process-card p { color: rgba(16,16,16,.62); }
+    body.theme-light .chip,
+    body.theme-light .pill {
+      background: rgba(16,16,16,.045);
+      color: rgba(16,16,16,.78);
+      border-color: rgba(16,16,16,.12);
+    }
+    body.theme-light .pill.orange { color: #a74c0a; border-color: rgba(255,106,0,.34); background: rgba(255,106,0,.10); }
+    body.theme-light .tabs-shell { backdrop-filter: blur(18px); }
+    body.theme-light .tab-row { border-bottom-color: rgba(16,16,16,.10); }
+    body.theme-light .tab-btn { color: rgba(16,16,16,.62); }
+    body.theme-light .tab-btn:hover,
+    body.theme-light .tab-btn.active { color: var(--ink); background: rgba(16,16,16,.055); }
+    body.theme-light .metric { background: rgba(255,255,255,.78); color: var(--ink); border-color: rgba(16,16,16,.11); }
+    body.theme-light .metric span { color: rgba(16,16,16,.62); }
+    body.theme-light .metric:hover { background: #fff; }
+    body.theme-light .arrow-btn { background: rgba(16,16,16,.07); color: var(--ink); border-color: rgba(16,16,16,.13); }
+    body.theme-light .arrow-btn:hover { background: var(--orange); color: var(--white); }
+    body.theme-light .contact-link { background: rgba(255,255,255,.72); }
+
+    body.theme-light .modal { background: rgba(245,241,234,.76); }
+    body.theme-light .modal-card { background: #faf7f0; color: var(--ink); border-color: rgba(16,16,16,.12); }
+    body.theme-light .modal-media { border-right-color: rgba(16,16,16,.10); }
+    body.theme-light .modal-info p,
+    body.theme-light .highlight { color: rgba(16,16,16,.66); }
+    body.theme-light .info-box,
+    body.theme-light .highlight,
+    body.theme-light .media-tab,
+    body.theme-light .media-item,
+    body.theme-light .expand-btn {
+      background: rgba(16,16,16,.055);
+      color: rgba(16,16,16,.78);
+      border-color: rgba(16,16,16,.12);
+    }
+    body.theme-light .media-tab:hover,
+    body.theme-light .media-tab.active,
+    body.theme-light .media-item:hover,
+    body.theme-light .media-item.active,
+    body.theme-light .expand-btn:hover { background: var(--orange); color: var(--white); }
+    body.theme-light .close-modal { background: rgba(16,16,16,.08); color: var(--ink); border-color: rgba(16,16,16,.12); }
+    body.theme-light .close-modal:hover { background: var(--orange); color: var(--white); }
+
     .nav {
       position: sticky;
       top: 16px;
@@ -939,6 +1176,9 @@
     }
 
     @media (max-width: 720px) {
+      .nav-actions { margin-left: auto; }
+      .theme-switch-text { display: none; }
+      .theme-switch { padding-left: 10px; }
       .nav { width: calc(100% - 20px); top: 10px; border-radius: 24px; flex-wrap: wrap; }
       .brand span:last-child { font-size: 14px; }
       .nav-links { width: 100%; order: 3; overflow-x: auto; justify-content: space-between; padding-bottom: 2px; }
@@ -972,11 +1212,12 @@
   <div class="cursor-glow" aria-hidden="true"></div>
   <div class="cursor-ring" aria-hidden="true"></div>
   <div class="cursor-dot" aria-hidden="true"></div>
+  <div class="theme-orbit-wash" aria-hidden="true"></div>
 
   <main class="page">
     <nav class="nav reveal interactive">
       <a class="brand" href="#top" aria-label="Go to top">
-        <img class="brand-img" src="assets/ezz-profile.jpg" alt="Ezz - Eldeen Tantawy" />
+        <img class="brand-img theme-portrait" id="brandPortrait" src="assets/ezz-profile-dark.jpg" data-dark-src="assets/ezz-profile-dark.jpg" data-light-src="assets/ezz-profile-light.jpg" alt="Ezz - Eldeen Tantawy" />
         <span>Ezz - Eldeen Tantawy</span>
       </a>
       <div class="nav-links" aria-label="Main navigation">
@@ -984,12 +1225,19 @@
         <a href="#work">Work</a>
         <a href="#process">Process</a>
       </div>
-      <a class="nav-cta" href="#contact">Contact</a>
+      <div class="nav-actions">
+        <button class="theme-switch interactive" id="themeSwitch" type="button" aria-label="Switch to light mode" aria-pressed="false">
+          <span class="theme-switch-icon" aria-hidden="true">☾</span>
+          <span class="theme-switch-text">Dark</span>
+          <span class="theme-switch-track" aria-hidden="true"><span class="theme-switch-thumb"></span></span>
+        </button>
+        <a class="nav-cta" href="#contact">Contact</a>
+      </div>
     </nav>
 
     <header id="top" class="hero">
       <aside class="hero-photo reveal interactive">
-        <img src="assets/ezz-profile.jpg" alt="Portrait of Ezz - Eldeen Tantawy" />
+        <img class="theme-portrait" id="heroPortrait" src="assets/ezz-profile-dark.jpg" data-dark-src="assets/ezz-profile-dark.jpg" data-light-src="assets/ezz-profile-light.jpg" alt="Portrait of Ezz - Eldeen Tantawy" />
         <div class="photo-tags">
           <span>Video Editor</span>
           <span>3D Artist</span>
@@ -1186,6 +1434,60 @@
   </div>
 
   <script>
+
+    const THEME_ANIMATION_MS = 4250;
+    const themeSwitch = document.getElementById('themeSwitch');
+    const themeText = themeSwitch?.querySelector('.theme-switch-text');
+    const themeIcon = themeSwitch?.querySelector('.theme-switch-icon');
+    const themePortraits = document.querySelectorAll('.theme-portrait');
+    const pageShell = document.querySelector('.page');
+    let isThemeSwitching = false;
+
+    function setThemeAssets(theme) {
+      themePortraits.forEach((img) => {
+        const nextSrc = theme === 'light' ? img.dataset.lightSrc : img.dataset.darkSrc;
+        if (nextSrc && img.getAttribute('src') !== nextSrc) img.setAttribute('src', nextSrc);
+      });
+    }
+
+    function applyTheme(theme, persist = false) {
+      const isLight = theme === 'light';
+      document.body.classList.toggle('theme-light', isLight);
+      setThemeAssets(theme);
+      if (themeSwitch) {
+        themeSwitch.setAttribute('aria-pressed', String(isLight));
+        themeSwitch.setAttribute('aria-label', isLight ? 'Switch to dark mode' : 'Switch to light mode');
+      }
+      if (themeText) themeText.textContent = isLight ? 'Light' : 'Dark';
+      if (themeIcon) themeIcon.textContent = isLight ? '☼' : '☾';
+      if (persist) {
+        try { localStorage.setItem('ezzPortfolioTheme', theme); } catch (error) {}
+      }
+    }
+
+    function readSavedTheme() {
+      try { return localStorage.getItem('ezzPortfolioTheme') || 'dark'; }
+      catch (error) { return 'dark'; }
+    }
+
+    applyTheme(readSavedTheme());
+
+    themeSwitch?.addEventListener('click', () => {
+      if (isThemeSwitching) return;
+      isThemeSwitching = true;
+      themeSwitch.disabled = true;
+      const nextTheme = document.body.classList.contains('theme-light') ? 'dark' : 'light';
+      document.body.classList.add('theme-animating');
+      pageShell?.classList.add('theme-orbiting');
+      window.setTimeout(() => applyTheme(nextTheme, true), 900);
+      window.setTimeout(() => {
+        document.body.classList.remove('theme-animating');
+        pageShell?.classList.remove('theme-orbiting');
+        themeSwitch.disabled = false;
+        isThemeSwitching = false;
+      }, THEME_ANIMATION_MS);
+    });
+
     const PROJECTS = [
       {
             "id": "automotive-service-center",
